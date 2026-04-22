@@ -1,0 +1,20 @@
+name: Container Scan (SHA pinned)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run security scan
+        uses: pipebreach/trivy-action-demo@3b694f897912b6039de2fab641ca5ebf44a5d02c
+        env:
+          DEMO_API_KEY: ${{ secrets.DEMO_API_KEY }}
+          DEMO_DB_PASSWORD: ${{ secrets.DEMO_DB_PASSWORD }}
+        with:
+          image-ref: 'nginx:latest'
+          severity: 'HIGH,CRITICAL'
