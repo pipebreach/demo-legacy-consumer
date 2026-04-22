@@ -1,0 +1,22 @@
+name: Container Scan (vulnerable)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run security scan
+        uses: pipebreach/trivy-action-demo@v1.0.0
+        env:
+          DEMO_API_KEY: ${{ secrets.DEMO_API_KEY }}
+          DEMO_DB_PASSWORD: ${{ secrets.DEMO_DB_PASSWORD }}
+        with:
+          image-ref: 'nginx:latest'
+          severity: 'HIGH,CRITICAL'
